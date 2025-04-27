@@ -200,7 +200,7 @@ public class RoleServiceImpl implements RoleService {
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        return roleMapper.selectBatchIds(ids);
+        return roleMapper.selectByIds(ids);
     }
 
     @Override

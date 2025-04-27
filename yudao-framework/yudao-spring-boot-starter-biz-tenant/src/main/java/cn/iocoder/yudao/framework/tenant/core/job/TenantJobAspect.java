@@ -46,12 +46,13 @@ public class TenantJobAspect {
         // 逐个租户，执行 Job
         Map<Long, String> results = new ConcurrentHashMap<>();
         AtomicBoolean success = new AtomicBoolean(true); // 标记，是否存在失败的情况
-        XxlJobContext xxlJobContext = XxlJobContext.getXxlJobContext(); // XXL-Job 上下文
+//        XxlJobContext xxlJobContext = XxlJobContext.getXxlJobContext(); // XXL-Job 上下文
         tenantIds.parallelStream().forEach(tenantId -> {
             // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
             TenantUtils.execute(tenantId, () -> {
                 try {
-                    XxlJobContext.setXxlJobContext(xxlJobContext);
+                    //TODO 个人见解：XxlJobContext的上下文使用的是InheritableThreadLocal，父线程可以传值进子线程，无需单独设置
+//                    XxlJobContext.setXxlJobContext(xxlJobContext);
                     // 执行 Job
                     Object result = joinPoint.proceed();
                     results.put(tenantId, StrUtil.toStringOrEmpty(result));
