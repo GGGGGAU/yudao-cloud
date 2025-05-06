@@ -9,6 +9,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -56,6 +57,7 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
             });
 
     @Override
+    @Cacheable(value = "test" ,key = "T(cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils).getLoginUserId() +'-'+ #permission")
     public boolean hasPermission(String permission) {
         return hasAnyPermissions(permission);
     }
